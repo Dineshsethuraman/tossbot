@@ -32,20 +32,14 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_text(msg)
 
 async def toss(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    # Send initial message
-    msg = await update.message.reply_text("Flipping the coin 🪙")
+    # Create a little suspense
+    message = await update.message.reply_text("Flipping the coin... 🪙")
+    await asyncio.sleep(2)  # pause for 2 seconds to build suspense
 
-    # Simulate flipping animation with dots
-    for frame in ["🪙", "🪙.", "🪙..", "🪙..."]:
-        await asyncio.sleep(0.5)
-        await msg.edit_text(f"Flipping the coin {frame}")
-
-    # Decide result
     result = "Heads 🪙" if random.random() < 0.5 else "Tails 🪙"
     response = random.choice(TOSS_RESULTS[result])
-
-    # Show final result
-    await msg.edit_text(f"You tossed: {result}\n{response}")
+    
+    await message.edit_text(f"You tossed: {result}\n{response}")
 
 def main():
     app = ApplicationBuilder().token(TOKEN).build()
